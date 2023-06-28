@@ -1,17 +1,23 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { initialState, productReducer } from "../components/state/productReducer";
+import { actionTypes } from "../components/state/actionTypes";
 
 export const PRODUCT_CONTEXT = createContext();
 
 const ProductProvider = ({children}) => {
-    const [data,setData ]=useState([])
-
+    
+    const [state, dispatch] = useReducer(productReducer, initialState)
     useEffect(()=>{
+        dispatch({type:actionTypes.FETCHING_START})
         fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
         .then(res=>res.json())
-        .then(data=>setData(data.drinks))
+        .then(data=>dispatch({type:actionTypes.FETCHING_SUCCESS, payload:data.drinks}))
+        .catch(()=>{
+            dispatch({type:actionTypes.FETCHING_ERROR})
+        })
     },[])
 
-    const value = {data}
+    const value = {state, dispatch}
     return (
     
         <PRODUCT_CONTEXT.Provider value={value}>
