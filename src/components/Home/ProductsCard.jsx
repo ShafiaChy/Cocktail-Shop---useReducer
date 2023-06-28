@@ -1,6 +1,9 @@
+import { useProducts } from "../../provider/ProductProvider";
+import { actionTypes } from "../state/actionTypes";
 
 
 const ProductsCard = ({product}) => {
+    const {dispatch} = useProducts()
     const {strDrinkThumb, strInstructions,strCategory}=product;
     return (
     
@@ -12,7 +15,7 @@ const ProductsCard = ({product}) => {
                 <h2 className="card-title">{strCategory}</h2>
                 <p>{strInstructions}</p>
                 <div className="card-actions">
-                <button className="btn btn-primary">Buy Now</button>
+                <button onClick={()=> dispatch({type: actionTypes.ADD_TO_CART, payload:product})} className="btn btn-primary">Buy Now</button>
                 </div>
             </div>
             </div>

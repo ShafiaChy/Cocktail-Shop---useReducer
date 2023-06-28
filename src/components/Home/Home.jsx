@@ -3,18 +3,31 @@ import ProductsCard from "./ProductsCard";
 
 
 const Home = () => {
-    const {state: {products}} = useProducts();
-    console.log(products)
+    const {state: {products,loading,error,cart}} = useProducts();
+    console.log(cart)
+    let content;
+    if(loading){
+        content = <p>Loading</p>
+    }
+    if(error){
+        content = <p>Something went wrong</p>
+    }
+    if(!loading && !error && products.length===0){
+        content = <p>No Product Found</p>
+    }
+    if(!loading && !error && products.length){
+        content = products.map(product => 
+            <ProductsCard 
+            key={product.idDrink}
+            product={product}
+            ></ProductsCard>)
+    }
     return (
         <div className="flex justify-center mt-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {
-                products.map(product => 
-                <ProductsCard 
-                key={product.idDrink}
-                product={product}
-                ></ProductsCard>)
-            }
+            
+               {content} 
+            
             </div>
         </div>
     );
