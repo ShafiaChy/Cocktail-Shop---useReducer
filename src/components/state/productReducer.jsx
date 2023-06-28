@@ -4,7 +4,7 @@ export const initialState={
     loading: false,
     products:[],
     error:false,
-    cart:[]
+    carts:[]
 };
 
 export const productReducer = (state, action) =>{
@@ -35,7 +35,13 @@ export const productReducer = (state, action) =>{
         case actionTypes.ADD_TO_CART:
             return{
                 ...state,
-                cart:[...state.cart,action.payload ]
+                carts:[...state.carts,action.payload ]
+
+            }
+        case actionTypes.REMOVE_ITEM:
+            return{
+                ...state,
+                carts:[...state.carts.filter((cart)=>cart.idDrink!==action.payload.idDrink)]
 
             }
         default:

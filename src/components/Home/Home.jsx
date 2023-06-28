@@ -3,8 +3,8 @@ import ProductsCard from "./ProductsCard";
 
 
 const Home = () => {
-    const {state: {products,loading,error,cart}} = useProducts();
-    console.log(cart)
+    const {state: {products,loading,error,carts}} = useProducts();
+    console.log(carts)
     let content;
     if(loading){
         content = <p>Loading</p>
